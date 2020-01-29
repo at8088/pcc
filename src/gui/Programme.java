@@ -2,7 +2,7 @@ package gui;
 import astar.*;
 public class Programme {
 	
-
+	public static int WIDTH = 600,HEIGHT = 600;
 	private static boolean[][] obstacles = new boolean[9][9] ; 
 	private static Cellule[][] cells = new Cellule[9][9];
 	
@@ -13,7 +13,7 @@ public class Programme {
 				cells[i][j] = new Cellule(i,j);
 			}
 		}
-		new Fenetre(600,600,obstacles);
+		new Fenetre(WIDTH,HEIGHT,obstacles);
 		
 
 	}

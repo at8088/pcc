@@ -24,35 +24,37 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 	public EventCatcher(JPanel p , boolean[][] ob ) {
 		this.pan = p ;
 		this.obs = ob;
-		
 	}
 	
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		int x = (int) (e.getX() / 60) ;
-		int y = (int)(e.getY() / 60);
-		Graphics g = pan.getGraphics();
-		if(obs[x][y]) {
-			g.setColor(pan.getBackground());
-			obs[x][y] = false;
-			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
-		}else {
-			if(s_keyClicked && sClicks == 1) {
-				g.setColor(Color.BLUE);
-				s_keyClicked = false ;
-				startX = x ;
-				startY = y ;
-				startSelected = true;
-			}else if(f_keyClicked && fClicks == 1) {
-				g.setColor(Color.GREEN);
-				f_keyClicked = false;
-				finishX = x ;
-				finishY = y ;
-				finishSelected = true;
+		int x = e.getX() / 60 ;
+		int y = e.getY() / 60;
+		if( x < 9 && y < 9 ){
+			Graphics g = pan.getGraphics();
+			if(obs[x][y]) {
+				g.setColor(pan.getBackground());
+				obs[x][y] = false;
+			}else {
+				if(s_keyClicked && sClicks == 1) {
+					g.setColor(Color.BLUE);
+					s_keyClicked = false ;
+					startX = x ;
+					startY = y ;
+					startSelected = true;
+				}else if(f_keyClicked && fClicks == 1) {
+					g.setColor(Color.GREEN);
+					f_keyClicked = false;
+					finishX = x ;
+					finishY = y ;
+					finishSelected = true;
+				}else {
+					obs[x][y] = true;
+				}
 			}
 			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
+			g.dispose();
 		}
-		g.dispose();
 	}
 	public boolean isFinishSelected() {
 		return finishSelected;
@@ -121,22 +123,20 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		int x = (int) (e.getX() / 60) ;
-		int y = (int)(e.getY() / 60);
-		if( !obs[x][y] ) {
-			obs[x][y] = true;
-			Graphics g = pan.getGraphics();
-			g.setColor(Color.PINK);
-			g.fillRect(x, y, 60, 60);
-			g.dispose();
+		int x = e.getX() / 60;
+		int y = e.getY() / 60;
+		Graphics g = pan.getGraphics();
+		if(obs[x][y]){
+			g.setColor(pan.getBackground());
+			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
+		}else if(x!=startX && y!=startY){
+			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
 		}
-		
-	}
+    }
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 
