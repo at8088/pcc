@@ -2,6 +2,7 @@ package astar;
 
 import gui.Programme;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,16 +15,18 @@ public class RechercheChemin implements Runnable{
 	private Lock mutex ;
 	private boolean[][] obs;
 	private Cellule[][] cellMap;
+	private LinkedList<Cellule> path;
 	private ArrayList<Cellule> openList , closedList;
 	
 	public RechercheChemin(int startRow, int startColumn, int finishRow, 
-			int finishColumn , boolean[][] obs) {
+			int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
 		this.startRow = startRow;
 		this.startColumn = startColumn;
 		this.finishRow = finishRow;
 		this.finishColumn = finishColumn;
 		this.mutex = new ReentrantLock();
 		this.obs = obs.clone();
+		this.path = path;
 		this.cellMap = Programme.getCells();
 		openList = new ArrayList<Cellule>();
 		closedList = new ArrayList<Cellule>();
@@ -46,6 +49,7 @@ public class RechercheChemin implements Runnable{
 		while ( (! currentCell.equals(finishCell)) && (! openList.isEmpty())) {
 			currentCell = cellWithMinFCost();
 			if(currentCell.equals(finishCell)){
+				
 				continue;
 			}else{
 				openList.remove(currentCell);
@@ -71,20 +75,26 @@ public class RechercheChemin implements Runnable{
 		}
 
 		if(currentCell.equals(finishCell)){
-			Cellule tmp = finishCell;
-			System.out.print("Finish = ");
+			path.addFirst(currentCell);
+			Cellule tmp = currentCell;
 			while (!tmp.equals(startCell)) {
-				System.out.print(" x = "+tmp.getX() + " y = "+tmp.getY());
+				path.addFirst(tmp);
 				tmp = tmp.getParent();
 			}
-			System.out.println("Start =   x="+startColumn+"  y = "+startRow);
+			path.addFirst(startCell);
 		}else{
 			System.out.println("no path found");
 		}
 
 		
+
 		
 	}
+
+	public LinkedList<Cellule> getPath() {
+		return this.path;
+	}
+
 
 	private Cellule cellWithMinFCost(){
 		//O(1)
