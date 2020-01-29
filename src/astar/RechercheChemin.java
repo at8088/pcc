@@ -23,10 +23,10 @@ public class RechercheChemin implements Runnable{
 		this.finishRow = finishRow;
 		this.finishColumn = finishColumn;
 		this.mutex = new ReentrantLock();
-		this.obs = obs.clone();
+		this.obs = obs;
 		this.cellMap = Programme.getCells();
-		openList = new ArrayList<Cellule>();
-		closedList = new ArrayList<Cellule>();
+		openList = new ArrayList<>();
+		closedList = new ArrayList<>();
 	}
 
 	@Override

@@ -14,7 +14,6 @@ public class Programme {
 			}
 		}
 		new Fenetre(WIDTH,HEIGHT,obstacles);
-		
 
 	}
 	
