@@ -9,4 +9,5 @@ public enum CellType {
 	doubleEdgeRightUp,
 	doubleEdgeLeftDown,
 	doubleEdgeLeftUp,
+	middle,
 }

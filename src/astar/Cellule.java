@@ -5,12 +5,21 @@ public class Cellule {
 	private CellType type;
 	private int x , y;
 	private boolean visited;
+	private Cellule parent;
 	private double fCost, hCost, gCost;
 
 	public Cellule(int x , int y) {
 		this.x = x;
 		this.y = y;
 		this.setCellType();
+	}
+
+	public Cellule getParent() {
+		return this.parent;
+	}
+
+	public void setParent(Cellule parent) {
+		this.parent = parent;
 	}
 	
 	public void setCellType() {
@@ -39,8 +48,65 @@ public class Cellule {
 		}else if( x == 0) {
 			this.type = CellType.simpleEdgeLeft;
 			return;
-		}else {
+		}else if(x == 8){
 			this.type = CellType.simpleEdgeRight;
+		}else{
+			this.type = CellType.middle;
+		}
+	}
+
+	public double getFCost() {
+		return this.fCost;
+	}
+
+	public void setFCost(double fCost) {
+		this.fCost = fCost;
+	}
+
+	public double getHCost() {
+		return this.hCost;
+	}
+
+	public void setHCost(int finishX , int finishY) {
+		this.hCost = (Math.abs(this.x - finishX) + Math.abs(this.y - finishY));
+	}
+
+	public double getGCost() {
+		return this.gCost;
+	}
+
+	public void setGCost(double gCost) {
+		this.gCost = gCost;
+	}
+
+	public Cellule[] getNeighbors() {
+		if(getCellType() == CellType.doubleEdgeLeftDown){
+			Cellule[] neighbors = {new Cellule(x+1, y) ,new Cellule(x, y+1) };
+			return neighbors;
+		}else if(getCellType() == CellType.doubleEdgeLeftUp){
+			Cellule[] neighbors = {new Cellule(x+1, y) ,new Cellule(x, y-1) };
+			return neighbors;
+		}else if(getCellType() == CellType.doubleEdgeRightDown){
+			Cellule[] neighbors = {new Cellule(x-1, y) ,new Cellule(x, y-1) };
+			return neighbors;
+		}else if(getCellType() == CellType.doubleEdgeRightUp){
+			Cellule[] neighbors = {new Cellule(x+1, y+1) ,new Cellule(x-1, y) };
+			return neighbors;
+		}else if(getCellType() == CellType.simpleEdgeDown){
+			Cellule[] neighbors = {new Cellule(x+1, y) ,new Cellule(x, y-1) ,new Cellule(x-1, y)};
+			return neighbors;
+		}else if(getCellType() == CellType.simpleEdgeUp){
+			Cellule[] neighbors = {new Cellule(x+1, y) ,new Cellule(x-1, y),new Cellule(x, y+1) };
+			return neighbors;
+		}else if(getCellType() == CellType.simpleEdgeLeft){
+			Cellule[] neighbors = {new Cellule(x+1, y) ,new Cellule(x, y-1) , new Cellule(x, y+1)};
+			return neighbors;
+		}else if(getCellType() == CellType.simpleEdgeRight){
+			Cellule[] neighbors = {new Cellule(x-1, y) ,new Cellule(x, y-1),new Cellule(x, y+1) };
+			return neighbors;
+		}else{
+			Cellule[] neighbors = {new Cellule(x-1, y) ,new Cellule(x+1, y),new Cellule(x, y+1), new Cellule(x, y-1) };
+			return neighbors;
 		}
 	}
 	public CellType getCellType() {
@@ -49,6 +115,32 @@ public class Cellule {
 
 	public boolean isVisited() {
 		return visited;
+	}
+
+	public int distance(Cellule cell){
+		if(cell.x > x && cell.y > y){
+			return 2;
+		}else{
+			return 1;
+		}
+	}
+
+	public int getX() {
+		return this.x;
+	}
+
+	public int getY() {
+		return this.y;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof Cellule){
+			return this.x == ((Cellule)obj).x && this.y == ((Cellule)obj).y;
+		}
+		return false;
 	}
 
 }
