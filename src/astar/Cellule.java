@@ -86,7 +86,7 @@ public class Cellule {
 
 	public Cellule[] getNeighbors() {
 		if(getCellType() == CellType.doubleEdgeLeftDown){
-			Cellule[] neighbors = {new Cellule(x+1, y ,this) ,new Cellule(x, y+1,this) };
+			Cellule[] neighbors = {new Cellule(x+1, y ,this) ,new Cellule(x, y-1,this) };
 			return neighbors;
 		}else if(getCellType() == CellType.doubleEdgeLeftUp){
 			Cellule[] neighbors = {new Cellule(x+1, y,this) ,new Cellule(x, y+1,this) };

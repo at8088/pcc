@@ -79,6 +79,7 @@ public class RechercheChemin implements Runnable{
 		}
 
 		if(currentCell.equals(finishCell)){
+			System.out.println("Path Found .");
 			path.addFirst(currentCell);
 			Cellule tmp = currentCell;
 			while (!tmp.equals(startCell)) {
@@ -87,7 +88,7 @@ public class RechercheChemin implements Runnable{
 			}
 			path.addFirst(startCell);
 		}else{
-			System.out.println("no path found");
+			System.out.println("No path found .");
 		}
 
 		
