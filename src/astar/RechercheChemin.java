@@ -2,9 +2,12 @@ package astar;
 
 import gui.Programme;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+
 
 public class RechercheChemin implements Runnable{
 	
@@ -16,7 +19,7 @@ public class RechercheChemin implements Runnable{
 	private boolean[][] obs;
 	private Cellule[][] cellMap;
 	private LinkedList<Cellule> path;
-	private ArrayList<Cellule> openList , closedList;
+	private LinkedList<Cellule> openList , closedList;
 	
 	public RechercheChemin(int startRow, int startColumn, int finishRow, 
 			int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
@@ -28,8 +31,8 @@ public class RechercheChemin implements Runnable{
 		this.obs = obs;
 		this.path = path;
 		this.cellMap = Programme.getCells();
-		openList = new ArrayList<>();
-		closedList = new ArrayList<>();
+		openList = new LinkedList<>();
+		closedList = new LinkedList<>();
 	}
 
 	@Override
@@ -39,12 +42,12 @@ public class RechercheChemin implements Runnable{
 		System.out.println("Start @ X = "+startColumn+" , Y = "+startRow+" . \n"
 				+ "Finish @ X = "+finishColumn+" , Y = "+finishRow+" .");
 		
-		Cellule startCell = new Cellule(startColumn, startRow);
+		Cellule startCell = new Cellule(startColumn, startRow,null);
 		startCell.setHCost(finishColumn,finishRow);
 		//gCost == 0 for the start cell
 		startCell.setFCost(startCell.getHCost());
 		this.openList.add(startCell);
-		Cellule finishCell = new Cellule(finishColumn, finishRow);
+		Cellule finishCell = new Cellule(finishColumn, finishRow,null);
 		Cellule currentCell = startCell;
 		while ( (! currentCell.equals(finishCell)) && (! openList.isEmpty())) {
 			currentCell = cellWithMinFCost();
@@ -54,19 +57,21 @@ public class RechercheChemin implements Runnable{
 				openList.remove(currentCell);
 				closedList.add(currentCell);
 				for(Cellule cell : currentCell.getNeighbors()){
-					if(!closedList.contains(cell)){
-						if(!openList.contains(cell)){
-							cell.setParent(currentCell);
-							// could be unnecessary
-							cell.setHCost(finishColumn, finishRow);
-							cell.setGCost(cell.distance(currentCell) + currentCell.getGCost());
-							cell.setFCost(cell.getGCost() + cell.getHCost());
-							openList.add(cell);
-						}else if(cell.getGCost() > cell.distance(currentCell) + currentCell.getGCost()){
-							// could be unnecessary
-							cell.setParent(currentCell);
-							cell.setGCost(cell.distance(currentCell) + currentCell.getGCost());
-							cell.setFCost(cell.getGCost() + cell.getHCost());
+					if(!obs[cell.getX()][cell.getY()]){
+						if(!closedList.contains(cell) ){
+							if(!openList.contains(cell)){
+								cell.setParent(currentCell);
+								// could be unnecessary
+								cell.setHCost(finishColumn, finishRow);
+								cell.setGCost(cell.distance(currentCell) + currentCell.getGCost());
+								cell.setFCost(cell.getGCost() + cell.getHCost());
+								openList.add(cell);
+							}else if(cell.getGCost() > cell.distance(currentCell) + currentCell.getGCost()){
+								// could be unnecessary
+								cell.setParent(currentCell);
+								cell.setGCost(cell.distance(currentCell) + currentCell.getGCost());
+								cell.setFCost(cell.getGCost() + cell.getHCost());
+							}
 						}
 					}
 				}
@@ -97,8 +102,10 @@ public class RechercheChemin implements Runnable{
 
 	private Cellule cellWithMinFCost(){
 		//O(1)
-		Cellule minCell = openList.get(0);
-		for(Cellule cell : openList){
+		Cellule minCell = openList.get(openList.size()-1);
+		Iterator<Cellule> iter = openList.descendingIterator();
+		while(iter.hasNext()){
+			Cellule cell = iter.next();
 			if(minCell.getFCost() > cell.getFCost()){
 				minCell = cell;
 			}

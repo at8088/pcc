@@ -10,7 +10,7 @@ public class Programme {
 		for(int i = 0 ; i < 9 ; i++) {
 			for(int j = 0 ; j < 9 ; j++) {
 				obstacles[i][j] = false;
-				cells[i][j] = new Cellule(i,j);
+				//cells[i][j] = new Cellule(i,j);
 			}
 		}
 		new Fenetre(WIDTH,HEIGHT,obstacles);

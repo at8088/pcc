@@ -126,10 +126,8 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 		int x = e.getX() / 60;
 		int y = e.getY() / 60;
 		Graphics g = pan.getGraphics();
-		if(obs[x][y]){
-			g.setColor(pan.getBackground());
-			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
-		}else if(x!=startX && y!=startY){
+		if(x!=startX && y!=startY){
+			obs[x][y] = true;
 			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
 		}
     }
