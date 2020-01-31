@@ -17,12 +17,14 @@ public class Fenetre extends JFrame {
 		super("Plus court chemin");
 		this.setSize(L, l);
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		JPanel pan = new JPanel();
 		Grille gr = new Grille(L, l);
 		pan.add(gr);
-		EventCatcher lstn = new EventCatcher(pan, obs);
+		LinkedList<Cellule> path = new LinkedList<>();
+		EventCatcher lstn = new EventCatcher(pan, obs , path);
 		pan.addMouseListener(lstn);
 		this.addKeyListener(lstn);
 		pan.addMouseMotionListener(lstn);
@@ -35,7 +37,6 @@ public class Fenetre extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		LinkedList<Cellule> path = new LinkedList<>();
 		Thread pathFindingThread = new Thread(new RechercheChemin(lstn.getStartY(), lstn.getStartX(), lstn.getFinishY(),
 				lstn.getFinishX(), lstn.getObs() , path));
 
@@ -50,10 +51,12 @@ public class Fenetre extends JFrame {
 		
 		Graphics g = pan.getGraphics();
 		g.setColor(Color.PINK);
-		for(Cellule cell : path){
-			g.fillRect((cell.getX() * 60)+1, (cell.getY() * 60) + 6, 59, 59);
-		}
-		g.dispose();
+		if(path.size() > 2) {
+            for (Cellule cell : path.subList(1, path.size() - 2)) {
+                g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
+            }
+        }
+            g.dispose();
 	}
 	
 

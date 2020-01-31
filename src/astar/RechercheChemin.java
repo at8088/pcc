@@ -30,7 +30,6 @@ public class RechercheChemin implements Runnable{
 		this.mutex = new ReentrantLock();
 		this.obs = obs;
 		this.path = path;
-		this.cellMap = Programme.getCells();
 		openList = new LinkedList<>();
 		closedList = new LinkedList<>();
 	}
