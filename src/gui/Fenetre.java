@@ -37,8 +37,10 @@ public class Fenetre extends JFrame {
 				e.printStackTrace();
 			}
 		}
+
 		final RechercheChemin pathFind = new RechercheChemin(lstn.getStartY(), lstn.getStartX(), lstn.getFinishY(),
                 lstn.getFinishX(), lstn.getObs() , path);
+
 		Thread pathFindingThread = new Thread(pathFind);
 
 		pathFindingThread.start();
@@ -62,12 +64,12 @@ public class Fenetre extends JFrame {
             }
 
         }
+
 		try {
 			pathFindingThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 
 		g.setColor(Color.PINK);
 		if(path.size() > 2) {
@@ -75,9 +77,7 @@ public class Fenetre extends JFrame {
                 g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
             }
         }
-            g.dispose();
+        g.dispose();
 	}
-	
-
 
 }

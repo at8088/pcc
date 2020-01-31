@@ -1,33 +1,25 @@
 package astar;
 
-import gui.Programme;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-
-
+import gui.Programme;
 public class RechercheChemin implements Runnable{
 	
 	private int startRow = -10;
 	private int startColumn  = -10;
 	private int finishRow = -10;
 	private int finishColumn = -10;
-	private Lock mutex ;
 	private boolean[][] obs;
-	private Cellule[][] cellMap;
 	private LinkedList<Cellule> path;
 	private LinkedList<Cellule> openList , closedList;
 	private boolean finished;
+
 	public RechercheChemin(int startRow, int startColumn, int finishRow, 
-			int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
+			    int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
 		this.startRow = startRow;
 		this.startColumn = startColumn;
 		this.finishRow = finishRow;
 		this.finishColumn = finishColumn;
-		this.mutex = new ReentrantLock();
 		this.obs = obs;
 		this.path = path;
 		openList = new LinkedList<>();
@@ -107,10 +99,6 @@ public class RechercheChemin implements Runnable{
     public LinkedList<Cellule> getClosedList() {
         return closedList;
     }
-
-    public LinkedList<Cellule> getPath() {
-		return this.path;
-	}
 
     public boolean isFinished() {
         return finished;

@@ -16,8 +16,8 @@ public class Grille extends JComponent{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		for(int j = 0 ; j < 540 ; j += 60) {
-			for(int i = 0; i < 540 ; i+=60 ) {
+		for(int j = 0 ; j < this.getWidth() - 60 ; j += 60) {
+			for(int i = 0; i < this.getHeight() - 60 ; i+=60 ) {
 				g.drawRect(i, j, 60, 60);
 			}
 		}

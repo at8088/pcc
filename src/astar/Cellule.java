@@ -1,5 +1,5 @@
 package astar;
-
+import gui.Programme;
 public class Cellule {
 
 	private CellType type;
@@ -7,12 +7,7 @@ public class Cellule {
 	private boolean visited;
 	private Cellule parent;
 	private double fCost, hCost, gCost;
-
-	public Cellule(int x , int y , Cellule parent) {
-		if (x>8 || x<0 ||y>8 || y<0) {
-			System.err.println("errr");
-			System.out.println("x="+parent.x+"  y="+parent.y);
-		}
+	public Cellule(int x , int y , Cellule parent ) {
 		this.x = x;
 		this.y = y;
 		this.parent = parent;
@@ -29,21 +24,21 @@ public class Cellule {
 	
 	public void setCellType() {
 		if( y==0 ) {
-			if( x == 0 ) {
+            if( x == 0 ) {
 				this.type = CellType.doubleEdgeLeftUp;
 				return;
-			}else if( x == 8) {
+			}else if( x == Programme.WIDTH/60 - 1 ) {
 				this.type = CellType.doubleEdgeRightUp;
 				return;
 			}else {
 				this.type = CellType.simpleEdgeUp;
 				return;
 			}
-		}else if( y == 8) {
+		}else if( y == Programme.HEIGHT/60 - 1) {
 			if( x == 0 ) {
 				this.type = CellType.doubleEdgeLeftDown;
 				return;
-			}else if( x == 8) {
+			}else if( x == Programme.WIDTH/60 - 1 ) {
 				this.type = CellType.doubleEdgeRightDown;
 				return;
 			}else {
@@ -53,7 +48,7 @@ public class Cellule {
 		}else if( x == 0) {
 			this.type = CellType.simpleEdgeLeft;
 			return;
-		}else if(x == 8){
+		}else if(x == Programme.WIDTH/60 - 1){
 			this.type = CellType.simpleEdgeRight;
 		}else{
 			this.type = CellType.middle;
@@ -86,7 +81,7 @@ public class Cellule {
 
 	public Cellule[] getNeighbors() {
 		if(getCellType() == CellType.doubleEdgeLeftDown){
-			Cellule[] neighbors = {new Cellule(x+1, y ,this) ,new Cellule(x, y-1,this) };
+            Cellule[] neighbors = {new Cellule(x+1, y ,this) ,new Cellule(x, y-1,this) };
 			return neighbors;
 		}else if(getCellType() == CellType.doubleEdgeLeftUp){
 			Cellule[] neighbors = {new Cellule(x+1, y,this) ,new Cellule(x, y+1,this) };
