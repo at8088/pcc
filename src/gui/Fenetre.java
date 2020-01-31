@@ -37,19 +37,38 @@ public class Fenetre extends JFrame {
 				e.printStackTrace();
 			}
 		}
-		Thread pathFindingThread = new Thread(new RechercheChemin(lstn.getStartY(), lstn.getStartX(), lstn.getFinishY(),
-				lstn.getFinishX(), lstn.getObs() , path));
+		final RechercheChemin pathFind = new RechercheChemin(lstn.getStartY(), lstn.getStartX(), lstn.getFinishY(),
+                lstn.getFinishX(), lstn.getObs() , path);
+		Thread pathFindingThread = new Thread(pathFind);
 
 		pathFindingThread.start();
+		Graphics g = pan.getGraphics();
+        while (!pathFind.isFinished()){
+            synchronized (pathFind){
+                g.setColor(Color.cyan);
+                for (Cellule cell : pathFind.getOpenList()){
+                    if( !(cell.getY() == lstn.getStartY() && cell.getX() == lstn.getStartX())
+                            && !(cell.getY() == lstn.getFinishY()&& cell.getX() == lstn.getFinishX())){
+                        g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
+                    }
+                }
+                g.setColor(Color.magenta);
+                for (Cellule cell : pathFind.getClosedList()){
+                    if( !(cell.getY() == lstn.getStartY() && cell.getX() == lstn.getStartX())
+                            && !(cell.getY() == lstn.getFinishY()&& cell.getX() == lstn.getFinishX())){
+                        g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
+                    }
+                }
+            }
 
+        }
 		try {
 			pathFindingThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		
-		Graphics g = pan.getGraphics();
+
 		g.setColor(Color.PINK);
 		if(path.size() > 2) {
             for (Cellule cell : path.subList(1, path.size() - 2)) {

@@ -20,7 +20,7 @@ public class RechercheChemin implements Runnable{
 	private Cellule[][] cellMap;
 	private LinkedList<Cellule> path;
 	private LinkedList<Cellule> openList , closedList;
-	
+	private boolean finished;
 	public RechercheChemin(int startRow, int startColumn, int finishRow, 
 			int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
 		this.startRow = startRow;
@@ -32,11 +32,11 @@ public class RechercheChemin implements Runnable{
 		this.path = path;
 		openList = new LinkedList<>();
 		closedList = new LinkedList<>();
+		this.finished = false;
 	}
 
 	@Override
 	public void run() {
-		
 		System.out.println("Begin pathfinding");
 		System.out.println("Start @ X = "+startColumn+" , Y = "+startRow+" . \n"
 				+ "Finish @ X = "+finishColumn+" , Y = "+finishRow+" .");
@@ -53,8 +53,11 @@ public class RechercheChemin implements Runnable{
 			if(currentCell.equals(finishCell)){
 				break;
 			}else{
-				openList.remove(currentCell);
-				closedList.add(currentCell);
+				synchronized (this){
+					openList.remove(currentCell);
+					closedList.add(currentCell);
+					notify();
+				}
 				for(Cellule cell : currentCell.getNeighbors()){
 					if(!obs[cell.getX()][cell.getY()]){
 						if(!closedList.contains(cell) ){
@@ -64,7 +67,9 @@ public class RechercheChemin implements Runnable{
 								cell.setHCost(finishColumn, finishRow);
 								cell.setGCost(cell.distance(currentCell) + currentCell.getGCost());
 								cell.setFCost(cell.getGCost() + cell.getHCost());
-								openList.add(cell);
+								synchronized (this){
+									openList.add(cell);
+								}
 							}else if(cell.getGCost() > cell.distance(currentCell) + currentCell.getGCost()){
 								// could be unnecessary
 								cell.setParent(currentCell);
@@ -76,7 +81,7 @@ public class RechercheChemin implements Runnable{
 				}
 			}
 		}
-
+        this.finished = true;
 		if(currentCell.equals(finishCell)){
 			System.out.println("Path Found .");
 			path.addFirst(currentCell);
@@ -95,12 +100,23 @@ public class RechercheChemin implements Runnable{
 		
 	}
 
-	public LinkedList<Cellule> getPath() {
+    public LinkedList<Cellule> getOpenList() {
+        return openList;
+    }
+
+    public LinkedList<Cellule> getClosedList() {
+        return closedList;
+    }
+
+    public LinkedList<Cellule> getPath() {
 		return this.path;
 	}
 
+    public boolean isFinished() {
+        return finished;
+    }
 
-	private Cellule cellWithMinFCost(){
+    private Cellule cellWithMinFCost(){
 		//O(1)
 		Cellule minCell = openList.get(openList.size()-1);
 		Iterator<Cellule> iter = openList.descendingIterator();

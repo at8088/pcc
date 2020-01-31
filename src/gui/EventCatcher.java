@@ -35,7 +35,8 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 	public void mouseClicked(java.awt.event.MouseEvent e) {
 		int x = e.getX() / 60 ;
 		int y = e.getY() / 60;
-		if( x < 9 && y < 9 && !(x == startX && y == startY) && !(x == finishX && y == finishY) ){
+		if( x < 9 && y < 9 && !(x == startX && y == startY) && !(x == finishX && y == finishY)
+                &&  !path.contains(new Cellule(x,y,null))){
 			Graphics g = pan.getGraphics();
 			if(obs[x][y]) {
 				g.setColor(pan.getBackground());
