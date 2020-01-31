@@ -15,13 +15,13 @@ public class Fenetre extends JFrame {
 
 	public Fenetre(int L, int l, boolean[][] obs) {
 		super("Plus court chemin");
-		this.setSize(L, l);
-		this.setLocationRelativeTo(null);
+		this.setSize(L, l );
+		//this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		JPanel pan = new JPanel();
-		Grille gr = new Grille(L, l);
+		Grille gr = new Grille(L, l+30);
 		pan.add(gr);
 		LinkedList<Cellule> path = new LinkedList<>();
 		EventCatcher lstn = new EventCatcher(pan, obs , path);
@@ -47,18 +47,23 @@ public class Fenetre extends JFrame {
 		Graphics g = pan.getGraphics();
         while (!pathFind.isFinished()){
             synchronized (pathFind){
+                try {
+                    pathFind.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 g.setColor(Color.cyan);
                 for (Cellule cell : pathFind.getOpenList()){
                     if( !(cell.getY() == lstn.getStartY() && cell.getX() == lstn.getStartX())
                             && !(cell.getY() == lstn.getFinishY()&& cell.getX() == lstn.getFinishX())){
-                        g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
+                        g.fillRect((cell.getX() * Programme.cellSize) + 1, (cell.getY() * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
                     }
                 }
                 g.setColor(Color.magenta);
                 for (Cellule cell : pathFind.getClosedList()){
                     if( !(cell.getY() == lstn.getStartY() && cell.getX() == lstn.getStartX())
                             && !(cell.getY() == lstn.getFinishY()&& cell.getX() == lstn.getFinishX())){
-                        g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
+                        g.fillRect((cell.getX() * Programme.cellSize) + 1, (cell.getY() * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
                     }
                 }
             }
@@ -74,7 +79,7 @@ public class Fenetre extends JFrame {
 		g.setColor(Color.PINK);
 		if(path.size() > 2) {
             for (Cellule cell : path.subList(1, path.size() - 2)) {
-                g.fillRect((cell.getX() * 60) + 1, (cell.getY() * 60) + 6, 59, 59);
+                g.fillRect((cell.getX() * Programme.cellSize) + 1, (cell.getY() * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
             }
         }
         g.dispose();

@@ -33,8 +33,8 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 	
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		int x = e.getX() / 60 ;
-		int y = e.getY() / 60;
+		int x = e.getX() / Programme.cellSize ;
+		int y = e.getY() / Programme.cellSize;
 		if( x < obs.length && y < obs.length && !(x == startX && y == startY) && !(x == finishX && y == finishY)
                 &&  !path.contains(new Cellule(x,y,null))){
 			Graphics g = pan.getGraphics();
@@ -58,7 +58,7 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 					obs[x][y] = true;
 				}
 			}
-			g.fillRect((x * 60)+1, (y * 60) + 6, 59, 59);
+			g.fillRect((x * Programme.cellSize)+1, (y * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
 			g.dispose();
 		}
 	}
@@ -121,16 +121,18 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		int x = e.getX() / 60;
-		int y = e.getY() / 60;
+		int x = e.getX() / Programme.cellSize;
+		int y = e.getY() / Programme.cellSize;
 		if(x < obs.length && x>=0 && y < obs.length && y >= 0) {
             Graphics g = pan.getGraphics();
             if ( !(x == startX && y == startY) && !(x == finishX && y == finishY)
 					  &&  !path.contains(new Cellule(x,y,null)) ) {
                 obs[x][y] = true;
-                g.fillRect((x * 60) + 1, (y * 60) + 6, 59, 59);
+                g.fillRect((x * Programme.cellSize) + 1, (y * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
             }
         }
+
+        // code for finish cell drag
     }
 
 	@Override

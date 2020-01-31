@@ -61,6 +61,7 @@ public class RechercheChemin implements Runnable{
 								cell.setFCost(cell.getGCost() + cell.getHCost());
 								synchronized (this){
 									openList.add(cell);
+									notify();
 								}
 							}else if(cell.getGCost() > cell.distance(currentCell) + currentCell.getGCost()){
 								// could be unnecessary
@@ -80,10 +81,10 @@ public class RechercheChemin implements Runnable{
 			Cellule tmp = currentCell;
 			while (!tmp.equals(startCell)) {
 				path.addFirst(tmp);
-				tmp = tmp.getParent();
+                tmp = tmp.getParent();
 			}
 			path.addFirst(startCell);
-		}else{
+        }else{
 			System.out.println("No path found .");
 		}
 

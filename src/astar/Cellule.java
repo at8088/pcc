@@ -27,18 +27,18 @@ public class Cellule {
             if( x == 0 ) {
 				this.type = CellType.doubleEdgeLeftUp;
 				return;
-			}else if( x == Programme.WIDTH/60 - 1 ) {
+			}else if( x == Programme.WIDTH/Programme.cellSize - 1 ) {
 				this.type = CellType.doubleEdgeRightUp;
 				return;
 			}else {
 				this.type = CellType.simpleEdgeUp;
 				return;
 			}
-		}else if( y == Programme.HEIGHT/60 - 1) {
-			if( x == 0 ) {
+		}else if( y == Programme.HEIGHT/Programme.cellSize - 1) {
+            if( x == 0 ) {
 				this.type = CellType.doubleEdgeLeftDown;
 				return;
-			}else if( x == Programme.WIDTH/60 - 1 ) {
+			}else if( x == Programme.WIDTH/Programme.cellSize - 1 ) {
 				this.type = CellType.doubleEdgeRightDown;
 				return;
 			}else {
@@ -48,7 +48,7 @@ public class Cellule {
 		}else if( x == 0) {
 			this.type = CellType.simpleEdgeLeft;
 			return;
-		}else if(x == Programme.WIDTH/60 - 1){
+		}else if(x == Programme.WIDTH/Programme.cellSize - 1){
 			this.type = CellType.simpleEdgeRight;
 		}else{
 			this.type = CellType.middle;
