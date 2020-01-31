@@ -93,19 +93,24 @@ public class Cellule {
 			Cellule[] neighbors = {new Cellule(x, y+1,this) ,new Cellule(x-1, y,this) };
 			return neighbors;
 		}else if(getCellType() == CellType.simpleEdgeDown){
-			Cellule[] neighbors = {new Cellule(x+1, y , this) ,new Cellule(x, y-1, this) ,new Cellule(x-1, y, this)};
+			Cellule[] neighbors = {new Cellule(x+1, y , this) ,new Cellule(x, y-1, this)
+                    ,new Cellule(x-1, y, this)};
 			return neighbors;
 		}else if(getCellType() == CellType.simpleEdgeUp){
-			Cellule[] neighbors = {new Cellule(x+1, y, this) ,new Cellule(x-1, y, this),new Cellule(x, y+1, this) };
+			Cellule[] neighbors = {new Cellule(x+1, y, this) ,new Cellule(x-1, y, this),
+                    new Cellule(x, y+1, this) };
 			return neighbors;
 		}else if(getCellType() == CellType.simpleEdgeLeft){
-			Cellule[] neighbors = {new Cellule(x+1, y, this) ,new Cellule(x, y-1, this) , new Cellule(x, y+1, this)};
+			Cellule[] neighbors = {new Cellule(x+1, y, this) ,new Cellule(x, y-1, this) ,
+                    new Cellule(x, y+1, this)};
 			return neighbors;
 		}else if(getCellType() == CellType.simpleEdgeRight){
-			Cellule[] neighbors = {new Cellule(x-1, y, this) ,new Cellule(x, y-1, this),new Cellule(x, y+1, this) };
+			Cellule[] neighbors = {new Cellule(x-1, y, this) ,new Cellule(x, y-1, this),
+                    new Cellule(x, y+1, this) };
 			return neighbors;
 		}else{
-			Cellule[] neighbors = {new Cellule(x-1, y, this) ,new Cellule(x+1, y, this),new Cellule(x, y+1, this), new Cellule(x, y-1, this) };
+			Cellule[] neighbors = {new Cellule(x-1, y, this) ,new Cellule(x+1, y, this),
+                    new Cellule(x, y+1, this), new Cellule(x, y-1, this) };
 			return neighbors;
 		}
 	}
@@ -132,8 +137,6 @@ public class Cellule {
 	public int getY() {
 		return this.y;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj){
