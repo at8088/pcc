@@ -17,11 +17,11 @@ public class Fenetre extends JFrame {
 		super("Plus court chemin");
 		this.setSize(L, l );
 		//this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		JPanel pan = new JPanel();
-		Grille gr = new Grille(L, l+30);
+		Grille gr = new Grille(L, l);
 		pan.add(gr);
 		LinkedList<Cellule> path = new LinkedList<>();
 		EventCatcher lstn = new EventCatcher(pan, obs , path);
