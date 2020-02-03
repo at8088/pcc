@@ -1,27 +1,38 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.LinkedList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import astar.Cellule;
 import astar.RechercheChemin;
+import java.awt.FlowLayout;
 
 public class Fenetre extends JFrame {
 
+	private static int extraMarge = 15;
+	private static int leftSideWidth = 150 + extraMarge;
 	private static final long serialVersionUID = 1L;
 
 	public Fenetre(int L, int l, boolean[][] obs) {
 		super("Plus court chemin");
-		this.setSize(L, l );
-		//this.setLocationRelativeTo(null);
-		this.setResizable(true);
+		this.setSize(L + leftSideWidth, l + Programme.cellSize + extraMarge );
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 		JPanel pan = new JPanel();
-		Grille gr = new Grille(L, l);
+		Grille gr = new Grille(L + leftSideWidth, l);
+		JButton button = new JButton("Reset");
+		button.setBounds(10,20,30,60);
+		button.setPreferredSize(new Dimension(100,30));
+		button.setVisible(true);
+		this.setLayout(new FlowLayout());
+		this.add(button);
 		pan.add(gr);
 		LinkedList<Cellule> path = new LinkedList<>();
 		EventCatcher lstn = new EventCatcher(pan, obs , path);
@@ -29,6 +40,7 @@ public class Fenetre extends JFrame {
 		this.addKeyListener(lstn);
 		pan.addMouseMotionListener(lstn);
 		this.setContentPane(pan);
+		
 		System.out.println("Waiting for start and finish nodes to be selected ...");
 		while (!lstn.isFinishSelected() || !lstn.isStartSelected()) {
 			try {
