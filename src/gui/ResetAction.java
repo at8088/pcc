@@ -14,7 +14,7 @@ public class ResetAction implements ActionListener {
     private JPanel pan;
     private RechercheChemin pathFinder;
     private EventCatcher lstn;
-
+    public static boolean isReset = false;
     public ResetAction(JPanel pan , RechercheChemin pathFinder , EventCatcher lstn){
         this.pan = pan;
         this.lstn = lstn;
@@ -27,10 +27,10 @@ public class ResetAction implements ActionListener {
         if(Fenetre.pathFindingThread != null){
             try {
                 Fenetre.pathFindingThread.join();
-                System.out.println(Fenetre.pathFindingThread);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
+        isReset = true;
     }
 }

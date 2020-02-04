@@ -13,11 +13,11 @@ public class Fenetre extends JFrame {
 	private static int extraMarge = 20;
 	private static int leftSideWidth = 150 + extraMarge;
 	private static final long serialVersionUID = 1L;
-    private RechercheChemin pathFinder = null;
+    private static RechercheChemin pathFinder = null;
     public static Thread pathFindingThread = null;
     public static LinkedList<Cellule> path = new LinkedList<>();
-    private EventCatcher lstn = null;
-    private JPanel pan = new JPanel();
+    private static EventCatcher lstn = null;
+    private static JPanel pan = new JPanel();
 
 
 	public Fenetre(int L, int l, boolean[][] obs) {
@@ -41,19 +41,30 @@ public class Fenetre extends JFrame {
         button.addActionListener(new ResetAction(pan,pathFinder,lstn));
 		pan.add(button);
         pan.add(gr);
-        this.startPathFinding();
-        this.realTimePaint();
-		try {
-			pathFindingThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-        this.paintPath();
+        do{
+            startPathFinding();
+            realTimePaint();
+            try {
+                pathFindingThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            paintPath();
+            while(!ResetAction.isReset){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            ResetAction.isReset = false;
+        }while(true);
+
 	}
 
-	public void startPathFinding(){
+	public static void startPathFinding(){
         System.out.println("Waiting for start and finish nodes to be selected ...");
-        while (!lstn.isFinishSelected() || !lstn.isStartSelected()) {
+        while ((!lstn.isFinishSelected() || !lstn.isStartSelected()) ) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -66,7 +77,7 @@ public class Fenetre extends JFrame {
         pathFindingThread.start();
     }
 
-    public void realTimePaint(){
+    public static void realTimePaint(){
         Graphics g = pan.getGraphics();
         while (!pathFinder.isFinished()){
             synchronized (pathFinder){
@@ -97,7 +108,7 @@ public class Fenetre extends JFrame {
         g.dispose();
     }
 
-    private void paintPath(){
+    public static void paintPath(){
         Graphics g = pan.getGraphics();
         g.setColor(Color.PINK);
         if(path.size() > 2) {
