@@ -14,13 +14,13 @@ import java.awt.FlowLayout;
 
 public class Fenetre extends JFrame {
 
-	private static int extraMarge = 15;
+	private static int extraMarge = 20;
 	private static int leftSideWidth = 150 + extraMarge;
 	private static final long serialVersionUID = 1L;
 
 	public Fenetre(int L, int l, boolean[][] obs) {
 		super("Plus court chemin");
-		this.setSize(L + leftSideWidth, l + Programme.cellSize + extraMarge );
+		this.setSize(L + leftSideWidth, l + Programme.cellSize + extraMarge  );
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -87,7 +87,6 @@ public class Fenetre extends JFrame {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 		g.setColor(Color.PINK);
 		if(path.size() > 2) {
             for (Cellule cell : path.subList(1, path.size() - 2)) {

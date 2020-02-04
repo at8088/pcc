@@ -41,10 +41,15 @@ public class RechercheChemin implements Runnable{
 		Cellule finishCell = new Cellule(finishColumn, finishRow,null);
 		Cellule currentCell = startCell;
 		while ( (! currentCell.equals(finishCell)) && (! openList.isEmpty())) {
-			currentCell = cellWithMinFCost();
+            currentCell = cellWithMinFCost();
 			if(currentCell.equals(finishCell)){
 				break;
 			}else{
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 				synchronized (this){
 					openList.remove(currentCell);
 					closedList.add(currentCell);

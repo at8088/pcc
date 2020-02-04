@@ -128,7 +128,7 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
             if ( !(x == startX && y == startY) && !(x == finishX && y == finishY)
 					  &&  !path.contains(new Cellule(x,y,null)) ) {
                 obs[x][y] = true;
-                g.fillRect((x * Programme.cellSize) , (y * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
+                g.fillRect((x * Programme.cellSize)+1 , (y * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
             }
         }
 
