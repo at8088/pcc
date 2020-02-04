@@ -4,7 +4,6 @@ public class Cellule {
 
 	private CellType type;
 	private int x , y;
-	private boolean visited;
 	private Cellule parent;
 	private double fCost, hCost, gCost;
 	public Cellule(int x , int y , Cellule parent ) {
@@ -116,10 +115,6 @@ public class Cellule {
 	}
 	public CellType getCellType() {
 		return type;
-	}
-
-	public boolean isVisited() {
-		return visited;
 	}
 
 	public int distance(Cellule cell){

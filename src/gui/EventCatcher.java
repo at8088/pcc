@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 public class EventCatcher implements MouseListener , KeyListener , MouseMotionListener{
 	
-	private JPanel pan = new JPanel();
+	private JPanel pan ;
 	private boolean[][] obs;
 	private boolean s_keyClicked = false;
 	private int sClicks = 0;
@@ -35,8 +35,8 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 	public void mouseClicked(java.awt.event.MouseEvent e) {
 		int x = e.getX() / Programme.cellSize ;
 		int y = e.getY() / Programme.cellSize;
-		if( x < obs.length && y < obs.length && !(x == startX && y == startY) && !(x == finishX && y == finishY)
-                &&  !path.contains(new Cellule(x,y,null))){
+		if( x < obs.length && y < obs.length && !(x == startX && y == startY)
+				&& !(x == finishX && y == finishY) &&  !path.contains(new Cellule(x,y,null))){
 			Graphics g = pan.getGraphics();
 			if(obs[x][y]) {
 				g.setColor(pan.getBackground());
@@ -58,7 +58,8 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 					obs[x][y] = true;
 				}
 			}
-			g.fillRect((x * Programme.cellSize)+1, (y * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
+			g.fillRect((x * Programme.cellSize)+1, (y * Programme.cellSize) + 1, Programme.cellSize - 1,
+					Programme.cellSize - 1);
 			g.dispose();
 		}
 	}
@@ -128,18 +129,31 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
             if ( !(x == startX && y == startY) && !(x == finishX && y == finishY)
 					  &&  !path.contains(new Cellule(x,y,null)) ) {
                 obs[x][y] = true;
-                g.fillRect((x * Programme.cellSize)+1 , (y * Programme.cellSize) + 6, Programme.cellSize - 1, Programme.cellSize - 1);
+                g.fillRect((x * Programme.cellSize)+1 , (y * Programme.cellSize) + 1, Programme.cellSize - 1,
+						Programme.cellSize - 1);
+            }else if(x == finishX && y == finishY){
+                // A faire
             }
         }
-
-        // code for finish cell drag
     }
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		System.out.println("x= "+e.getX() + " y="+e.getY());
+		//System.out.println("x= "+e.getX() + " y="+e.getY());
 	}
 
-
+	public void resetAll(){
+		this.f_keyClicked = false;
+		this.s_keyClicked = false;
+		this.fClicks = 0;
+		this.sClicks = 0;
+		this.finishX = -1;
+		this.finishY = -1;
+		this.startX = -1;
+		this.startY = -1;
+		this.finishSelected = false;
+		this.startSelected = false;
+		this.path = Fenetre.path;
+	}
 
 }

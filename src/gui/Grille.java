@@ -1,7 +1,6 @@
 package gui;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import javax.swing.JComponent;
 
 public class Grille extends JComponent{
@@ -15,7 +14,7 @@ public class Grille extends JComponent{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+		g.setColor(Color.black);
 		for(int i = 0 ; i <= Programme.WIDTH - Programme.cellSize ; i += Programme.cellSize) {
 			for(int j = 0; j <= Programme.HEIGHT - Programme.cellSize ; j+=Programme.cellSize ) {
 				g.drawRect(i, j, Programme.cellSize, Programme.cellSize);

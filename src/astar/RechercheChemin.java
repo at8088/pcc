@@ -2,6 +2,8 @@ package astar;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import gui.Fenetre;
 import gui.Programme;
 public class RechercheChemin implements Runnable{
 	
@@ -14,8 +16,8 @@ public class RechercheChemin implements Runnable{
 	private LinkedList<Cellule> openList , closedList;
 	private boolean finished;
 
-	public RechercheChemin(int startRow, int startColumn, int finishRow, 
-			    int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
+	public RechercheChemin(int startRow, int startColumn, int finishRow,
+						   int finishColumn , boolean[][] obs , LinkedList<Cellule> path) {
 		this.startRow = startRow;
 		this.startColumn = startColumn;
 		this.finishRow = finishRow;
@@ -123,5 +125,15 @@ public class RechercheChemin implements Runnable{
 		return minCell;
 	}
 
+	public void resetAll(){
+    	this.finished = false;
+    	this.closedList = new LinkedList<>();
+    	this.openList = new LinkedList<>();
+		this.finishColumn = -1;
+		this.finishRow = -1;
+		this.startColumn = -1;
+		this.startRow = -1;
+		this.path = Fenetre.path;
+	}
 	
 }
