@@ -2,9 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.util.LinkedList;
-
 import javax.swing.*;
-
 import astar.Cellule;
 import astar.RechercheChemin;
 
@@ -19,7 +17,6 @@ public class Fenetre extends JFrame {
     private static EventCatcher lstn = null;
     private static JPanel pan = new JPanel();
 
-
 	public Fenetre(int L, int l, boolean[][] obs) {
 		super("Plus court chemin");
 		this.setSize(L + leftSideWidth, l + Programme.cellSize + extraMarge  );
@@ -30,6 +27,7 @@ public class Fenetre extends JFrame {
 		Grille gr = new Grille(L + leftSideWidth, l);
 		JButton button = new JButton("Reset");
 		lstn = new EventCatcher(pan, obs , path);
+
         this.addKeyListener(lstn);
         pan.addMouseListener(lstn);
         pan.addMouseMotionListener(lstn);
@@ -44,12 +42,12 @@ public class Fenetre extends JFrame {
         do{
             startPathFinding();
             realTimePaint();
+            paintPath();
             try {
                 pathFindingThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+            e.printStackTrace();
             }
-            paintPath();
             while(!ResetAction.isReset){
                 try {
                     Thread.sleep(1000);
@@ -59,7 +57,6 @@ public class Fenetre extends JFrame {
             }
             ResetAction.isReset = false;
         }while(true);
-
 	}
 
 	public static void startPathFinding(){
@@ -103,21 +100,22 @@ public class Fenetre extends JFrame {
                     }
                 }
             }
-
         }
         g.dispose();
     }
 
     public static void paintPath(){
-        Graphics g = pan.getGraphics();
-        g.setColor(Color.PINK);
-        if(path.size() > 2) {
-            for (Cellule cell : path.subList(1, path.size() - 2)) {
-                g.fillRect((cell.getX() * Programme.cellSize) + 1, (cell.getY() * Programme.cellSize) + 1,
-                        Programme.cellSize - 1, Programme.cellSize - 1);
+        synchronized (pathFindingThread) {
+            Graphics g = pan.getGraphics();
+            g.setColor(Color.PINK);
+            if (path.size() > 2) {
+                for (Cellule cell : path.subList(1, path.size() - 2)) {
+                    g.fillRect((cell.getX() * Programme.cellSize) + 1, (cell.getY() * Programme.cellSize) + 1,
+                            Programme.cellSize - 1, Programme.cellSize - 1);
+                }
             }
+            g.dispose();
         }
-        g.dispose();
     }
 
 }

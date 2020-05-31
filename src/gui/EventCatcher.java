@@ -2,8 +2,7 @@ package gui;
 
 import astar.Cellule;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -24,6 +23,7 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 	private int fClicks = 0;
 	private int startX = -10 ,startY = -10,finishX = -10,finishY = -10;
 	private LinkedList<Cellule> path;
+//	private Rectangle finishRectangle;
 	
 	public EventCatcher(JPanel p , boolean[][] ob , LinkedList<Cellule> path) {
 	    this.path = path;
@@ -132,7 +132,9 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
                 g.fillRect((x * Programme.cellSize)+1 , (y * Programme.cellSize) + 1, Programme.cellSize - 1,
 						Programme.cellSize - 1);
             }else if(x == finishX && y == finishY){
-                // A faire
+				g.setColor(Color.green);
+				g.fillRect((x * Programme.cellSize)+1 , (y * Programme.cellSize) + 1, Programme.cellSize - 1,
+						Programme.cellSize - 1);
             }
         }
     }

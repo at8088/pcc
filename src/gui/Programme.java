@@ -26,7 +26,6 @@ public class Programme {
 				g.drawRect(i * cellSize , j * cellSize,cellSize,cellSize);
 			}
 		}
-		Fenetre.path = new LinkedList<>();
 		if(pathFinder != null){
 			pathFinder.resetAll();
 		}

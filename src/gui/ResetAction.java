@@ -23,6 +23,7 @@ public class ResetAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //synchro maybe
         Programme.reset(pan,pathFinder,lstn);
         if(Fenetre.pathFindingThread != null){
             try {
