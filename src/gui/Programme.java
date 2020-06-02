@@ -17,6 +17,7 @@ public class Programme {
 
 	public static void reset(JPanel panel , RechercheChemin pathFinder , EventCatcher eCatcher){
 		Graphics g = panel.getGraphics();
+		// set cell colours to default bg colour.
 		for (int i = 0 ; i < obstacles.length ; i++){
 			for (int j = 0 ; j < obstacles[0].length ; j++){
 				obstacles[i][j] = false;

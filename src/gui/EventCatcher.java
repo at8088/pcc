@@ -41,16 +41,22 @@ public class EventCatcher implements MouseListener , KeyListener , MouseMotionLi
 			if(obs[x][y]) {
 				g.setColor(pan.getBackground());
 				obs[x][y] = false;
+				s_keyClicked = false;
+				sClicks = 0;
+				f_keyClicked = false;
+				fClicks = 0;
 			}else {
 				if(s_keyClicked && sClicks == 1) {
 					g.setColor(Color.BLUE);
 					s_keyClicked = false ;
+					sClicks = 0;
 					startX = x ;
 					startY = y ;
 					startSelected = true;
 				}else if(f_keyClicked && fClicks == 1) {
 					g.setColor(Color.GREEN);
 					f_keyClicked = false;
+					fClicks = 0;
 					finishX = x ;
 					finishY = y ;
 					finishSelected = true;

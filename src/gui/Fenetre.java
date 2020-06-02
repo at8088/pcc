@@ -42,12 +42,12 @@ public class Fenetre extends JFrame {
         do{
             startPathFinding();
             realTimePaint();
-            paintPath();
             try {
                 pathFindingThread.join();
             } catch (InterruptedException e) {
             e.printStackTrace();
             }
+            paintPath();
             while(!ResetAction.isReset){
                 try {
                     Thread.sleep(1000);
@@ -109,6 +109,7 @@ public class Fenetre extends JFrame {
             Graphics g = pan.getGraphics();
             g.setColor(Color.PINK);
             if (path.size() > 2) {
+                System.out.println("Coloring path");
                 for (Cellule cell : path.subList(1, path.size() - 2)) {
                     g.fillRect((cell.getX() * Programme.cellSize) + 1, (cell.getY() * Programme.cellSize) + 1,
                             Programme.cellSize - 1, Programme.cellSize - 1);
